@@ -1,4 +1,5 @@
 import numpy as np
+from PySimpleGUI import one_line_progress_meter
 from helpers import rescale
 
 # resizes image using bilinear interpolation
@@ -14,6 +15,9 @@ def resize(im, new_h, new_w):
     for h in range(im.shape[0]-1):
         # sampling locations within current height
         s_h = sampling_heights[np.logical_and(sampling_heights>=h, sampling_heights<=h+1)]
+
+        # we put a progress bar because our bilinear is slow
+        one_line_progress_meter("", h, im.shape[0]-2, "Progress", orientation="h", no_button=True, keep_on_top=True)
 
         for w in range(im.shape[1]-1):   
             patch = im[h:h+2, w:w+2] # 2x2 patch to interpolate
@@ -75,6 +79,9 @@ def bilin_interpolate(patch, sampling_heights, sampling_widths):
     sampling_widths = rescale.scale_sampling(sampling_widths)
 
     xc, yc = np.meshgrid(sampling_widths, sampling_heights)
+    # print(xc)
+    # print(yc)
+    # exit()
     # print(xc.shape)
     # print(yc.shape)
 

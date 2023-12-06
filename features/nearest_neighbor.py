@@ -1,4 +1,5 @@
 import numpy as np
+from PySimpleGUI import one_line_progress_meter
 
 def resize(image, new_height,new_width):
     new_image = np.zeros(shape=(new_height, new_width, 3))
@@ -8,6 +9,7 @@ def resize(image, new_height,new_width):
 
 
     for h in range(len(sampling_heights)):
+        one_line_progress_meter("", h, len(sampling_heights)-1, "Progress", orientation="h", no_button=True, keep_on_top=True)
         for w in range(len(sampling_widths)):
             new_image[h,w] = image[sampling_heights[h], sampling_widths[w]]
     

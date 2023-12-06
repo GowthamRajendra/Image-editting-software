@@ -18,4 +18,4 @@ def create_paintify_window():
         ]  
     ]
 
-    return sg.Window('Paintify', layout=layout, keep_on_top=True, modal=True)
+    return sg.Window('Paintify', layout=layout, modal=True)

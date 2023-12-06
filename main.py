@@ -1,22 +1,18 @@
-# Faisal Z. Qureshi
-# www.vclab.ca
-# LAB 6: RAVICHANDRA POGAKU, 100784105
+# PROJECT: Bicubic Interpolation for Image Resizing
+# Look in features folder for "bicubic_spline.py" and "bicubic_convolution.py"
+# 
+# Ravichandra Pogaku - 100784105
+# Gowtham Rajendra - 100785594
+# Ivan Wang - 100785566
 
 import PySimpleGUI as sg
-# import imutils
-from PIL import Image
-from io import BytesIO
 import numpy as np
 import cv2      
-import scipy as sp
-# import timeit
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('TkAgg')
 from pathlib import Path
 
-from features import paintify, film_effects, nearest_neighbor, bilinear, average_blur, gauss_blur, hist_equalization
+from features import paintify, film_effects, nearest_neighbor, bilinear, average_blur, gauss_blur, hist_equalization, bicubic_spline
 from components import save_window, menu_bar, paintify_window, film_effects_window, resize_window, average_window, gauss_window
 from helpers import draw, film_settings, constrain_size
 
@@ -62,7 +58,7 @@ def display_image(height, width, np_image=[]):
         if event == "Open Image":
             path = sg.popup_get_file(
                 "Select image to load",
-                default_path='D:/jeff/HDD Downloads/hand.png',
+                default_path='D:/jeff/HDD Downloads/bird.jpg',
                 file_types=[("Images", ".jpg .png")],
                 keep_on_top=True
             )
@@ -87,6 +83,7 @@ def display_image(height, width, np_image=[]):
             if event == "Undo All":
                 draw.draw_im(np_image, window["-IMAGE-"], height)
                 editted_image = np_image
+                window['-S_TEXT-'].Update(f'Size: {editted_image.shape[1]} x {editted_image.shape[0]} px')
 
             # save image
             elif event == "Save as":
@@ -201,25 +198,36 @@ def display_image(height, width, np_image=[]):
                             resize_wind['-H_INPUT-'].Update(new_height)
                     
                     elif resize_event == 'BL':
-                        if (new_height > 0 and new_width > 0):
+                        if new_height > 0 and new_width > 0:
                             editted_image = bilinear.resize(editted_image, new_height, new_width)
 
                             draw.draw_im(editted_image, window["-IMAGE-"], height)
                             window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
                             break
                         else:
-                            sg.popup_error(f'Invalid input: new_h={new_height}, new_w={new_width}')
+                            sg.popup_error(f'Invalid size: {new_height}x{new_width}')
                     
                     # nearest neighbor interpolation
                     elif resize_event == 'NN':
-                        if (new_height > 0 and new_width > 0):
+                        if new_height > 0 and new_width > 0:
                             editted_image = nearest_neighbor.resize(editted_image, new_height, new_width)
 
                             draw.draw_im(editted_image, window["-IMAGE-"], height)
                             window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
                             break
                         else:
-                            sg.popup_error(f'Invalid input: new_h={new_height}, new_w={new_width}')
+                            sg.popup_error(f'Invalid size: {new_height}x{new_width}')
+                    
+                    # bicubic interpolation
+                    elif resize_event == "BC":
+                        if new_height > 0 and new_width > 0:
+                            editted_image = bicubic_spline.resize(editted_image, new_height, new_width)
+
+                            draw.draw_im(editted_image, window["-IMAGE-"], height)
+                            window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
+                            break
+                        else:
+                            sg.popup_error(f'Invalid size: {new_height}x{new_width}')
                     
                     elif resize_event == sg.WINDOW_CLOSED or resize_event == 'Cancel':
                         break

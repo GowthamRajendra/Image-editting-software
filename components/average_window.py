@@ -23,4 +23,4 @@ def create_average_window():
         ],
     ]
 
-    return sg.Window('Average Blur', layout=layout, keep_on_top=True, modal=True)
+    return sg.Window('Average Blur', layout=layout, modal=True)

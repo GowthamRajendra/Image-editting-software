@@ -21,4 +21,4 @@ def create_film_window():
         ] 
     ]
 
-    return sg.Window('Film Effects', layout=layout, keep_on_top=True, modal=True)
+    return sg.Window('Film Effects', layout=layout, modal=True)

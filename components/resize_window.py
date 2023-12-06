@@ -19,9 +19,10 @@ def create_resize_window():
             [
                 sg.Button("NN"),
                 sg.Button("BL"),
+                sg.Button("BC")
             ],
             sg.Cancel()
         ]
     ]
     
-    return sg.Window('Resize Image', layout=layout, keep_on_top=True, modal=True)
+    return sg.Window('Resize Image', layout=layout, modal=True)

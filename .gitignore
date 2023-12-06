@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# User specific settings
+settings.yaml
+
+# Images
+*.png
+*.jpg
+
 # C extensions
 *.so
 

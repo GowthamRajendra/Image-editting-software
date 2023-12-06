@@ -23,4 +23,4 @@ def create_gauss_window():
         ],
     ]
 
-    return sg.Window('Gaussian Blur', layout=layout, keep_on_top=True, modal=True)
+    return sg.Window('Gaussian Blur', layout=layout, modal=True)

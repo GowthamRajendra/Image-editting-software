@@ -13,4 +13,4 @@ def create_save_window():
         ]
     ]
 
-    return sg.Window('Save Image', layout=layout, keep_on_top=True, modal=True)
+    return sg.Window('Save Image', layout=layout, modal=True)
