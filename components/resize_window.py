@@ -16,11 +16,11 @@ def create_resize_window():
             sg.Checkbox("constrained", key='-C_BOX-')
         ],
         [
-            [
-                sg.Button("NN"),
-                sg.Button("BL"),
-                sg.Button("BC")
-            ],
+            sg.Text("Interpolation Type: "),
+            sg.Combo(["Nearest Neighbor", "Bilinear", "Bicubic Spline", "Bicubic Convolution"], "Nearest Neighbor", readonly=True, key="-INTER_CHOOSER-"),
+        ],
+        [
+            sg.Button("Resize"),
             sg.Cancel()
         ]
     ]

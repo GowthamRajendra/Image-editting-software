@@ -115,11 +115,10 @@ def calc_coefs(patch=0):
     fys = y_derv(patch.astype(np.float32))
     fxys = x_derv(y_derv(patch.astype(np.float32))) # mixed partial derv
 
-
     # A^-1 * b = x, x is unknown coefficients matrix
-    b = np.array([patch[1,1], patch[1,2], patch[2,1], patch[2,2], 
+    b = np.array([patch[1,1], patch[1,2], patch[2,1], patch[2,2],
                   fxs[1,1], fxs[1,2], fxs[2,1], fxs[2,2],
-                  fys[1,1], fys[1,2], fys[2,1], fys[2,2], 
+                  fys[1,1], fys[1,2], fys[2,1], fys[2,2],
                   fxys[1,1], fxys[1,2], fxys[2,1], fxys[2,2]])
     
     x = np.dot(A_inv, b.T)

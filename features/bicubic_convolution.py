@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
+from PySimpleGUI import one_line_progress_meter
 
+# PROJECT: Bicubic Convolution Interpolation
 
 def u(s):
     # this kernel uses -0.5 value for 'a'
@@ -14,7 +16,7 @@ def u(s):
     return 0  # return 0 for any other values
 
 
-def bicubic(im, new_h, new_w):
+def resize(im, new_h, new_w):
     # image dimensions
     height, width, channels = im.shape
 
@@ -29,6 +31,10 @@ def bicubic(im, new_h, new_w):
     sampling_widths = np.linspace(0, width, new_w+1) + 2
 
     for h in range(new_h):
+
+        # progress bar
+        one_line_progress_meter("Bicubic Convolution Resizing", h, new_h-1, "Progress", orientation="h", no_button=True, keep_on_top=True)
+
         for w in range(new_w):
             # current sampling points
             y = sampling_heights[h]

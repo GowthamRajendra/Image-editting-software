@@ -12,7 +12,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 from pathlib import Path
 
-from features import paintify, film_effects, nearest_neighbor, bilinear, average_blur, gauss_blur, hist_equalization, bicubic_spline
+from features import paintify, film_effects, nearest_neighbor, bilinear, average_blur, gauss_blur, hist_equalization, bicubic_spline, bicubic_convolution
 from components import save_window, menu_bar, paintify_window, film_effects_window, resize_window, average_window, gauss_window
 from helpers import draw, film_settings, constrain_size
 
@@ -44,7 +44,7 @@ def display_image(height, width, np_image=[]):
         ]
 
     # Create the window
-    window = sg.Window('Display Image', layout, finalize=True, resizable=True)
+    window = sg.Window('Image Editor', layout, finalize=True, resizable=True)
     window.maximize()
     # window['-IMAGE-'].draw_image(data=image_data, location=(0, height))
     editted_image = []
@@ -184,53 +184,66 @@ def display_image(height, width, np_image=[]):
                         if resize_values['-H_INPUT-'].isnumeric():
                             new_height = int(resize_values['-H_INPUT-'])
                         
-                        if resize_values["-C_BOX-"]: # if constrained, update the width by ratio
-                            new_width = constrain_size.calc(height, width, new_height=new_height)
-                            resize_wind['-W_INPUT-'].Update(new_width)
+                            if resize_values["-C_BOX-"]: # if constrained, update the width by ratio
+                                new_width = constrain_size.calc(height, width, new_height=new_height)
+                                print(f"new_width: {new_width}")
+                                resize_wind['-W_INPUT-'].Update(new_width)
                     
                     # if user types in width input
                     elif resize_event == "-W_INPUT-":
                         if resize_values['-W_INPUT-'].isnumeric():
                             new_width = int(resize_values['-W_INPUT-'])
                         
-                        if resize_values["-C_BOX-"]: # if constrained, update the height by ratio
-                            new_height = constrain_size.calc(height, width, new_width=new_width)
-                            resize_wind['-H_INPUT-'].Update(new_height)
+                            if resize_values["-C_BOX-"]: # if constrained, update the height by ratio
+                                new_height = constrain_size.calc(height, width, new_width=new_width)
+                                print(f"new_height: {new_height}")
+                                resize_wind['-H_INPUT-'].Update(new_height)
                     
-                    elif resize_event == 'BL':
-                        if new_height > 0 and new_width > 0:
-                            editted_image = bilinear.resize(editted_image, new_height, new_width)
+                    elif resize_event == "Resize":
+                        if resize_values["-INTER_CHOOSER-"] == 'Nearest Neighbor':
+                            if new_height > 0 and new_width > 0:
+                                editted_image = nearest_neighbor.resize(editted_image, new_height, new_width)
 
-                            draw.draw_im(editted_image, window["-IMAGE-"], height)
-                            window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
-                            break
-                        else:
-                            sg.popup_error(f'Invalid size: {new_height}x{new_width}')
-                    
-                    # nearest neighbor interpolation
-                    elif resize_event == 'NN':
-                        if new_height > 0 and new_width > 0:
-                            editted_image = nearest_neighbor.resize(editted_image, new_height, new_width)
+                                draw.draw_im(editted_image, window["-IMAGE-"], height)
+                                window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
+                                break
+                            else:
+                                sg.popup_error(f'Invalid size: {new_height}x{new_width}')
+                        
+                        elif resize_values["-INTER_CHOOSER-"] == 'Bilinear':
+                            if new_height > 0 and new_width > 0:
+                                editted_image = bilinear.resize(editted_image, new_height, new_width)
 
-                            draw.draw_im(editted_image, window["-IMAGE-"], height)
-                            window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
-                            break
-                        else:
-                            sg.popup_error(f'Invalid size: {new_height}x{new_width}')
-                    
-                    # bicubic interpolation
-                    elif resize_event == "BC":
-                        if new_height > 0 and new_width > 0:
-                            editted_image = bicubic_spline.resize(editted_image, new_height, new_width)
+                                draw.draw_im(editted_image, window["-IMAGE-"], height)
+                                window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
+                                break
+                            else:
+                                sg.popup_error(f'Invalid size: {new_height}x{new_width}')
+                        
+                        # bicubic interpolation
+                        elif resize_values["-INTER_CHOOSER-"] == "Bicubic Spline":
+                            if new_height > 0 and new_width > 0:
+                                editted_image = bicubic_spline.resize(editted_image, new_height, new_width)
 
-                            draw.draw_im(editted_image, window["-IMAGE-"], height)
-                            window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
-                            break
-                        else:
-                            sg.popup_error(f'Invalid size: {new_height}x{new_width}')
+                                draw.draw_im(editted_image, window["-IMAGE-"], height)
+                                window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
+                                break
+                            else:
+                                sg.popup_error(f'Invalid size: {new_height}x{new_width}')
+                        
+                        elif resize_values["-INTER_CHOOSER-"] == "Bicubic Convolution":
+                            if new_height > 0 and new_width > 0:
+                                editted_image = bicubic_convolution.resize(editted_image, new_height, new_width)
+
+                                draw.draw_im(editted_image, window["-IMAGE-"], height)
+                                window['-S_TEXT-'].Update(f'Size: {new_width} x {new_height} px')
+                                break
+                            else:
+                                sg.popup_error(f'Invalid size: {new_height}x{new_width}')
                     
                     elif resize_event == sg.WINDOW_CLOSED or resize_event == 'Cancel':
                         break
+
                 resize_wind.close()
         
             elif event == "Average":
