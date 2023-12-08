@@ -17,4 +17,4 @@ Final project for CSCI3240U - Computational Photography
 - PIL
 - io
 ## Usage
-Clone repository, install required libraries if missing, annd run main.py.
+Clone repository, install required libraries if missing, and run main.py.
