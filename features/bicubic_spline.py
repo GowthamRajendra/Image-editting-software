@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import scipy as sp
+from scipy import ndimage
 from PySimpleGUI import one_line_progress_meter
 from helpers import rescale
 

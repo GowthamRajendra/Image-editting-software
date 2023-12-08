@@ -1,5 +1,6 @@
 import numpy as np
 import scipy as sp
+from scipy import signal
 
 def blur(im, halfw):
     var = np.square(halfw/3)  # square std to get variance

@@ -10,5 +10,4 @@ def scale_sampling(sampling_points):
         elif r == 0:
             scaled_samples[r] = 0
     
-    # print(f'{sampling_points} scaled -> {scaled_samples}')
     return scaled_samples

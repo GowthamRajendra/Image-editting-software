@@ -32,8 +32,6 @@ def changeContrast(image, slider_val):
     x2, y2 = (170-(slider_val*41.5), 170+(slider_val*85))
     x3, y3 = (255,255)
 
-    # print(f'points: (x0,y0)=({x0},{y0})\n(x1,y1)=({x1},{y1})\n(x2,y2)=({x2},{y2})\n(x3,y3)=({x3},{y3})\n')    
-
     x_mat = np.array([
         [0,     0,     0,  1],
         [x1**3, x1**2, x1, 1],
@@ -56,9 +54,6 @@ def changeContrast(image, slider_val):
     curve = np.clip(curve, 0, 255)
     hsv_im[:, :, 2] = curve[hsv_im[:, :, 2]] # apply curve
 
-    # print(f'v-min: {np.min(hsv_im[:, :, 2])}, v-max: {np.max(hsv_im[:, :, 2])}')
-    # editted_im = cv2.cvtColor(hsv_im, cv2.COLOR_HSV2RGB)
-    
     editted_im = cv2.cvtColor(hsv_im, cv2.COLOR_HSV2RGB)
 
     return editted_im

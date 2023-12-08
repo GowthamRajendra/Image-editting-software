@@ -12,8 +12,6 @@ def calcGradient(image, threshold):
 
     xgradient = sp.signal.convolve2d(g_im, Ix, 'same')
     ygradient = sp.signal.convolve2d(g_im, Iy, 'same')
-
-    # print(xgradient, "\n\n", ygradient)
     
     grad_mags = np.sqrt(np.square(xgradient) + np.square(ygradient)) # calc magnitudes
     grad_angles = np.arctan2(xgradient, ygradient) # calc angles

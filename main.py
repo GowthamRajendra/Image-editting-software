@@ -45,20 +45,15 @@ def display_image(height, width, np_image=[]):
 
     # Create the window
     window = sg.Window('Image Editor', layout, finalize=True, resizable=True)
-    window.maximize()
-    # window['-IMAGE-'].draw_image(data=image_data, location=(0, height))
     editted_image = []
 
     # Event loop
     while True:
         event, values = window.read()
 
-        print(event)
-
         if event == "Open Image":
             path = sg.popup_get_file(
                 "Select image to load",
-                default_path='D:/jeff/HDD Downloads/bird.jpg',
                 file_types=[("Images", ".jpg .png")],
                 keep_on_top=True
             )
@@ -125,7 +120,6 @@ def display_image(height, width, np_image=[]):
                         s_wid = int(paint_values["-S_WID-"]) # stroke width
                         threshold = int(paint_values["-THRESHOLD-"]) # gradient magnitude threshold
                         editted_image = paintify.drawStrokes(editted_image, threshold, s_len, s_wid)
-                        # new_image = calcGradient(np_image)
                         draw.draw_im(editted_image, window["-IMAGE-"], height)
                     
                     elif paint_event == "Cancel" or paint_event == sg.WINDOW_CLOSED:
@@ -186,7 +180,6 @@ def display_image(height, width, np_image=[]):
                         
                             if resize_values["-C_BOX-"]: # if constrained, update the width by ratio
                                 new_width = constrain_size.calc(height, width, new_height=new_height)
-                                print(f"new_width: {new_width}")
                                 resize_wind['-W_INPUT-'].Update(new_width)
                     
                     # if user types in width input
@@ -196,7 +189,6 @@ def display_image(height, width, np_image=[]):
                         
                             if resize_values["-C_BOX-"]: # if constrained, update the height by ratio
                                 new_height = constrain_size.calc(height, width, new_width=new_width)
-                                print(f"new_height: {new_height}")
                                 resize_wind['-H_INPUT-'].Update(new_height)
                     
                     elif resize_event == "Resize":
