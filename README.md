@@ -26,4 +26,4 @@ Final project for CSCI3240U - Computational Photography
 - Gowtham Rajendra
   - Coding Bicubic Convolution interpolation, writing project report, and making the video.
 - Ivan Wang
-  - Writing project report, and making the video.
+  - Help with research, writing project report, and making the video.
