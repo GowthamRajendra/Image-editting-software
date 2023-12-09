@@ -79,4 +79,4 @@ def resize(im, new_h, new_w):
                 new_im[h, w, c] = np.dot(np.dot(kernel_x, values), kernel_y)
 
     # clip values to avoid overflow
-    return np.clip(new_im, 0, 255)
+    return np.clip(new_im, 0, 255).astype(np.uint8)
