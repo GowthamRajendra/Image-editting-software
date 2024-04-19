@@ -1,8 +1,8 @@
 # Image-editing-software
 ### Creators
-- Ravichandra Pogaku (Ravichandra.pogaku@ontariotechu.net)
-- Gowtham Rajendra (Gowtham.rajendra@ontariotechu.net)
-- Ivan Wang (Jianbin.wang@ontariotechu.net)
+- [Gowtham Rajendra](https://github.com/GowthamRajendra)
+- [Ivan Wang](https://github.com/Ivan-WangJianBin)
+- [Ravi Pogaku](https://github.com/Ravi-Pogaku)
 ## Libraries Required
 - PySimpleGUI
 - numpy
